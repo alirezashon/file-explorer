@@ -23,6 +23,23 @@ const FileExplorer = () => {
   const [isAdding, setIsAdding] = useState<'folder' | 'file' | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const findParentFolder = (name: string): string | null => {
+    const search = (items: FileItem[], fileName: string): string | null => {
+      for (const item of items) {
+        if (item.children && item.children.some((child) => child.name === fileName)) {
+          return item.name;
+        }
+        if (item.children) {
+          const result = search(item.children, fileName);
+          if (result) return result;
+        }
+      }
+      return null;
+    };
+
+    return search(structure, name);
+  };
+
   const handleSelectItem = (name: string, type: 'file' | 'folder') => {
     if (type === 'file') {
       setSelectedItem(findParentFolder(name) || 'Root');
