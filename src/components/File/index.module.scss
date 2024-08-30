@@ -1,0 +1,108 @@
+$padding-vh: 2vh;
+$padding-vw: 2vw;
+$border-radius: 0.5vw;
+
+.container {
+  background: linear-gradient(to right, $primary-color, $secondary-color);
+  padding: 3vh 4vw; 
+  border-radius: $border-radius;
+  color: $text-color;
+  font-family: Arial, sans-serif;
+
+  .toolbar {
+    margin-bottom: 3vh;
+
+    button {
+      background-color: $secondary-color;
+      color: $text-color;
+      border: none;
+      padding: 2vh 3vw;
+      border-radius: $border-radius;
+      cursor: pointer;
+      @include transition(background-color $transition, transform $transition);
+      margin-right: 2vw;
+
+      @include button-hover($primary-color);
+    }
+  }
+
+  .structure {
+    .list {
+      list-style-type: none;
+      padding-left: 0;
+
+      .listItem {
+        margin-bottom: 1.5vh;
+
+        .item {
+          display: flex;
+          align-items: center;
+          padding: $padding-vh $padding-vw;
+          background-color: rgba(255, 255, 255, 0.1);
+          border-radius: $border-radius;
+          cursor: pointer;
+          @include transition(
+            background-color $transition,
+            box-shadow $transition
+          );
+
+          span {
+            margin-left: 1vw;
+            color: $text-color;
+          }
+
+          &.selected {
+            background-color: $primary-color;
+            box-shadow: 0 0 1.5vw rgba(0, 153, 168, 0.6);
+          }
+
+          &:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0.75vh 1.5vh rgba(0, 0, 0, 0.1);
+          }
+
+          button {
+            background-color: $secondary-color;
+            color: $text-color;
+            border: none;
+            padding: $padding-vh 1.5vw;
+            border-radius: $border-radius;
+            cursor: pointer;
+            @include transition(
+              background-color $transition,
+              transform $transition
+            );
+
+            @include button-hover($primary-color);
+          }
+        }
+
+        .newItemInput {
+          margin-top: 1.5vh;
+
+          input {
+            padding: $padding-vh $padding-vw;
+            border: 0.2vh solid $primary-color;
+            border-radius: $border-radius;
+            margin-right: 1vw;
+          }
+
+          button {
+            background-color: $secondary-color;
+            color: $text-color;
+            border: none;
+            padding: $padding-vh 1.5vw;
+            border-radius: $border-radius;
+            cursor: pointer;
+            @include transition(
+              background-color $transition,
+              transform $transition
+            );
+
+            @include button-hover($primary-color);
+          }
+        }
+      }
+    }
+  }
+}

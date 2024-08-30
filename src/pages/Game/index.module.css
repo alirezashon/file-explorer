@@ -1,0 +1,73 @@
+.gameBoard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.status {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, 50px);
+  grid-template-rows: repeat(5, 50px);
+  gap: 10px;
+}
+
+.square {
+  position: relative;
+  width: 50px;
+  height: 50px;
+}
+
+.line {
+  position: absolute;
+  background-color: gray;
+  cursor: pointer;
+}
+
+.horizontal {
+  width: 50px;
+  height: 5px;
+  top: 0;
+  left: 0;
+}
+
+.vertical {
+  width: 5px;
+  height: 50px;
+  top: 0;
+  left: 0;
+}
+
+.red {
+  background-color: red;
+}
+
+.blue {
+  background-color: blue;
+}
+
+/* Dot styles */
+.dot {
+  width: 10px;
+  height: 10px;
+  background-color: black;
+  border-radius: 50%;
+  position: absolute;
+  top: -5px;
+  left: -5px;
+}
+
+/* Place dots at the grid intersections */
+.grid > div::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  background-color: black;
+  border-radius: 50%;
+  position: absolute;
+}

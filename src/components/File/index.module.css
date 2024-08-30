@@ -1,0 +1,90 @@
+.container {
+  background: linear-gradient(to right, #abb2b2, #aca4ad);
+  padding: 20px;
+  border-radius: 8px;
+  color: #fff;
+  font-family: Arial, sans-serif;
+}
+
+.toolbar {
+  margin-bottom: 15px;
+}
+
+.toolbar button {
+  background-color: #166f83;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.toolbar button:first-child {
+background-color: #004a99;
+}
+
+.toolbar button:hover {
+  background-color: #0099A8;
+  transform: scale(1.05);
+}
+
+.list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.listItem {
+  margin-bottom: 8px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.item:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.item span {
+  margin-left: 10px;
+  color: #fff;
+}
+
+.selected {
+  background-color: #0099A8;
+  box-shadow: 0 0 10px rgba(0, 153, 168, 0.6);
+}
+
+.newItemInput {
+  margin-top: 8px;
+}
+
+.newItemInput input {
+  padding: 8px;
+  border: 1px solid #0099A8;
+  border-radius: 4px;
+  margin-right: 8px;
+}
+
+.newItemInput button {
+  background-color: #8a0099;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.newItemInput button:hover {
+  background-color: #0099A8;
+  transform: scale(1.05);
+}
