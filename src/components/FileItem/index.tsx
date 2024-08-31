@@ -56,7 +56,7 @@ const FileItemComponent: React.FC<FileItemProps> = ({
   }
 
   return (
-    <li className={styles.listItem} style={{ paddingLeft: `${depth * 20}px` }}>
+    <li className={styles.listItem} style={{ paddingLeft: `${depth * 10}px` }}>
       <div
         className={`${styles.item} ${
           item.name === selectedItem ? styles.selected : ''

@@ -1,13 +1,11 @@
-/* index.module.css */
 .listItem {
     list-style: none;
-    margin: 5px 0;
+    margin: 1vh 0;
   }
   
   .item {
     display: flex;
     align-items: center;
-    padding: 5px 10px;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.2s ease;
