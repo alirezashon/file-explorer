@@ -1,111 +1,3 @@
-// 'use client'
-// import styles from './index.module.css'
-// import { FileExplorerContext, FileItem } from '../../context/Explorer'
-// import { useContext, useState, useRef, useEffect } from 'react'
-// import FolderItem from '../FolderItem'
-// import FileItemComponent from '../FileItem'
-
-// const FileExplorer = () => {
-//   const { structure, addFolder, addFile } = useContext(FileExplorerContext)
-//   const [selectedItem, setSelectedItem] = useState<string | null>('Root')
-//   const [newItemName, setNewItemName] = useState<string>('')
-//   const [isAdding, setIsAdding] = useState<'folder' | 'file' | null>(null)
-//   const inputRef = useRef<HTMLInputElement>(null)
-
-//   const AddFolder = () => {
-//     setIsAdding('folder')
-//     setNewItemName('')
-//   }
-
-//   const AddFile = () => {
-//     setIsAdding('file')
-//     setNewItemName('')
-//   }
-
-//   const SaveItem = () => {
-//     if (!newItemName) return
-
-//     const nameWithExtension =
-//       isAdding === 'file' && !newItemName.includes('.')
-//         ? `${newItemName}.txt`
-//         : newItemName
-
-//     if (isAdding === 'folder' && selectedItem) {
-//       addFolder(nameWithExtension, selectedItem)
-//     } else if (isAdding === 'file' && selectedItem) {
-//       addFile(nameWithExtension, selectedItem)
-//     }
-
-//     setNewItemName('')
-//     setIsAdding(null)
-//   }
-
-//   const Cancel = () => {
-//     setNewItemName('')
-//     setIsAdding(null)
-//   }
-
-//   const renderStructure = (structure: FileItem[], depth: number = 0) => (
-//     <ul className={styles.list}>
-//       {structure.map((item) =>
-//         item.type === 'folder' ? (
-//           <FolderItem
-//             key={item.name}
-//             item={item}
-//             depth={depth}
-//             selectedItem={selectedItem}
-//             setSelectedItem={setSelectedItem}
-//             setNewItemName={setNewItemName}
-//             setIsAdding={setIsAdding}
-//           />
-//         ) : (
-//           <FileItemComponent
-//             key={item.name}
-//             item={item}
-//             depth={depth}
-//             selectedItem={selectedItem}
-//             setSelectedItem={setSelectedItem}
-//           />
-//         )
-//       )}
-//     </ul>
-//   )
-
-//   useEffect(() => {
-//     if (isAdding && inputRef.current) {
-//       inputRef.current.focus()
-//     }
-//   }, [isAdding])
-
-//   return (
-//     <div className={styles.container}>
-//       <div className={styles.toolbar}>
-//         <button onClick={AddFolder}>Add Folder</button>
-//         <button onClick={AddFile}>Add File</button>
-//       </div>
-//       <div className={styles.structure}>{renderStructure(structure)}</div>
-//       {isAdding && (
-//         <div className={styles.newItemInput}>
-//           <input
-//             type='text'
-//             value={newItemName}
-//             onChange={(e) => setNewItemName(e.target.value)}
-//             placeholder={`Enter ${isAdding} name`}
-//             ref={inputRef}
-//           />
-//           <button className={styles.save} onClick={SaveItem}>
-//             Save
-//           </button>
-//           <button className={styles.cancel} onClick={Cancel}>
-//             Cancel
-//           </button>
-//         </div>
-//       )}
-//     </div>
-//   )
-// }
-
-// export default FileExplorer
 'use client'
 import styles from './index.module.css'
 import { FileExplorerContext } from '../../context/Explorer'
@@ -120,19 +12,53 @@ const FileExplorer = () => {
   const [isAdding, setIsAdding] = useState<'folder' | 'file' | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
+  const findParentFolder = (
+    items: FileItem[],
+    itemName: string
+  ): string | null => {
+    for (const item of items) {
+      if (item.children?.some((child) => child.name === itemName)) {
+        return item.name
+      }
+      if (item.children) {
+        const parent = findParentFolder(item.children, itemName)
+        if (parent) return parent
+      }
+    }
+    return null
+  }
+
+  const getSelectedFolder = () => {
+    if (!selectedItem) return null
+
+    const selectedItemIsFile = structure.some((folder) =>
+      folder.children?.some((child) => child.name === selectedItem && child.type === 'file')
+    )
+
+    if (selectedItemIsFile) {
+      const parentFolder = findParentFolder(structure, selectedItem)
+      return parentFolder || 'Root'
+    }
+
+    return selectedItem
+  }
+
   const SaveItem = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-    if (!inputRef.current?.value || !selectedItem) return
+    if (!inputRef.current?.value) return
 
     let name = inputRef.current.value.trim()
 
     if (isAdding === 'file' && !name.includes('.')) name += '.txt'
 
+    const selectedFolder = getSelectedFolder()
+    if (!selectedFolder) return
+
     const doesItemExistInFolder = (
       folder: FileItem,
       nameToCheck: string
     ): boolean => {
-      if (folder.name === selectedItem) {
+      if (folder.name === selectedFolder) {
         return (
           folder.children?.some(
             (item) => item.name === nameToCheck && item.type === isAdding
@@ -161,8 +87,8 @@ const FileExplorer = () => {
     }
 
     isAdding === 'folder'
-      ? addFolder(finalName, selectedItem)
-      : addFile(finalName, selectedItem)
+      ? addFolder(finalName, selectedFolder)
+      : addFile(finalName, selectedFolder)
 
     inputRef.current.value = ''
     setIsAdding(null)
@@ -182,11 +108,22 @@ const FileExplorer = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.toolbar}>
-        <button onClick={() => setIsAdding('folder')}>Add Folder</button>
-        <button onClick={() => setIsAdding('file')}>Add File</button>
-      </div>
       <div className={styles.structure}>
+        <div className={styles.toolbar}>
+          <i
+            onClick={() => setIsAdding('file')}
+            title='Add File'
+            className={`${styles.addFile} fa-solid fa-file-circle-plus`}
+            aria-hidden='true'
+          ></i>
+
+          <i
+            onClick={() => setIsAdding('folder')}
+            className={`${styles.addFolder} fa-solid fa-folder-plus`}
+            title='Add Folder'
+            aria-hidden='true'
+          ></i>
+        </div>
         <ul className={styles.list}>
           {structure.map((item) =>
             item.type === 'folder' ? (
@@ -209,22 +146,26 @@ const FileExplorer = () => {
             )
           )}
         </ul>
+        {isAdding && (
+          <div className={styles.newItemInput}>
+            <input
+              type='text'
+              placeholder={`Enter ${isAdding} name`}
+              onKeyDown={(e) =>
+                e.key === 'Enter' &&
+                SaveItem(e as unknown as React.MouseEvent<HTMLButtonElement>)
+              }
+              ref={inputRef}
+            />
+            <button className={styles.save} onClick={SaveItem}>
+              Save
+            </button>
+            <button className={styles.cancel} onClick={Cancel}>
+              Cancel
+            </button>
+          </div>
+        )}
       </div>
-      {isAdding && (
-        <div className={styles.newItemInput}>
-          <input
-            type='text'
-            placeholder={`Enter ${isAdding} name`}
-            ref={inputRef}
-          />
-          <button className={styles.save} onClick={SaveItem}>
-            Save
-          </button>
-          <button className={styles.cancel} onClick={Cancel}>
-            Cancel
-          </button>
-        </div>
-      )}
     </div>
   )
 }

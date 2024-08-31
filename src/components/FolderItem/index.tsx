@@ -20,11 +20,6 @@ const FolderItem: React.FC<FolderItemProps> = ({
     setSelectedItem(item.name)
   }
 
-  const handleDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.stopPropagation()
-    deleteItem(item.name)
-  }
-
   const getColor = (depth: number): string => {
     const colors = ['#f8bbd0', '#bbdefb', '#c8e6c9', '#ffe0b2', '#d1c4e9']
     return colors[depth % colors.length]
@@ -49,13 +44,33 @@ const FolderItem: React.FC<FolderItemProps> = ({
           aria-hidden='true'
         />
         <span className={styles.folderName}>{item.name}</span>
-        <button className={styles.deleteButton} onClick={handleDelete}>
-          Delete
-        </button>
+        {item.name === selectedItem && (
+          <div className={styles.iconContainer}>
+            <i
+              onClick={() => setIsAdding('file')}
+              title='Add File'
+              className={`${styles.icon} fa-solid fa-file-circle-plus`}
+              aria-hidden='true'
+            ></i>
+            <i
+              onClick={() => setIsAdding('folder')}
+              className={`${styles.icon} fa-solid fa-folder-plus`}
+              title='Add Folder'
+              aria-hidden='true'
+            ></i>
+
+            <i
+              onClick={() => deleteItem(item.name)}
+              title='Delete Folder'
+              className={`${styles.icon} ${styles.trash} fa fa-trash`}
+              aria-hidden='true'
+            ></i>
+          </div>
+        )}
       </div>
       {isOpen && item.children && (
         <ul className={styles.list}>
-          {item.children.map((child,index) =>
+          {item.children.map((child, index) =>
             child.type === 'folder' ? (
               <FolderItem
                 key={index}
@@ -69,7 +84,7 @@ const FolderItem: React.FC<FolderItemProps> = ({
               <FileItemComponent
                 key={child.name}
                 item={child}
-                depth={1}
+                depth={depth + 1}
                 selectedItem={selectedItem}
                 setSelectedItem={setSelectedItem}
               />

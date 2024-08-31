@@ -1,6 +1,9 @@
+@keyframes transformto {
+  0%{transform: translate(-100%,-100%);}
+}
 .container {
   background: linear-gradient(to right, #4f4f4f, #2f2f2f);
-  padding: 4vh 7vw;
+  padding: 3vh 5vw;
   color: #fff;
   width: 100%;
   min-height: 100vh;
@@ -10,79 +13,46 @@
   display: flex;
   gap: 2vh;
 }
-
-.toolbar button {
-  background-color: #5e60ce;
-  color: #fff;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 8px;
+.addFile,
+.addFolder {
   cursor: pointer;
-  margin-right: 10px;
-  font-weight: bold;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  font-size: 3vh;
+  margin: 1vh 0 0 3vh ;
 }
-
-.toolbar button:first-child {
-  background-color: #6a4c93;
+.addFile {
+  color: #d5ffe6;
 }
-
-.toolbar button:hover {
-  background-color: #5e60ce;
-  transform: scale(1.05);
+.addFolder {
+color: #d4c1f9;
 }
-
 .list {
   list-style-type: none;
   padding-left: 0;
-}
-
-.listItem {
-  margin-bottom: 12px;
-}
-
-.item {
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.item:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.item span {
-  margin-left: 10px;
-  color: #fff;
-  flex-grow: 1;
-}
-
-.item i {
-  color: #ffd700;
-  font-size: 18px;
-}
-
-.selected {
-  background-color: #6a4c93;
-  box-shadow: 0 0 10px rgba(106, 76, 147, 0.6);
+  border-radius: 2vh;
+  border-inline: 1px solid #ffffff;
+  overflow: auto
 }
 
 .newItemInput {
   margin-top: 10px;
   display: flex;
   align-items: center;
+  width: 60%;
+  margin-left: 20%;
+  border-block-end: 1px solid #d5ffe6;
+  border-inline-start: 1px solid #d5ffe6;
+  padding: 1vh 2vh;
+  border-radius: 1vh;
+  border-bottom-left-radius: 6vh;
 }
 
 .newItemInput input {
-  padding: 8px;
+  outline: none;
+  padding:1.2vh 1vh ;
   border: 1px solid #5e60ce;
   border-radius: 6px;
   margin-right: 8px;
+  border-bottom-left-radius: 2vh;
   flex-grow: 1;
 }
 
@@ -97,29 +67,36 @@
 }
 
 .newItemInput button:hover {
-  background-color: #ff3b3f;
+  background-color: #e1beec;
   transform: scale(1.05);
 }
 .save {
-  background-color: #156c9a;
+  background: linear-gradient(to right, #4c9096, #2a7d8f)
 }
-.cancle {
-  background-color: #ff3b3f;
+.cancel {
+  background: linear-gradient(to right, #964c4c, #8f2a2a)
 }
 .structure {
-  margin-top: 20px;
+  border: solid .7vh transparent;
+  border-radius: 1vh;
+  min-height: 93vh;
+  background: linear-gradient(to right, #656565, #2f2f2f) padding-box,
+    conic-gradient(
+        rgb(100, 129, 136),
+        #ffffff 18%,
+        #10272e 31% 43%,
+        rgb(125, 168, 169),
+        #ffffff,
+        #0c2c3b,
+        #86b5c7,
+        #445f66
+      )
+      border-box;
+  padding: 2vh 5vw;
+  animation: transformto 1s;
 }
-
-.deleteButton {
-  background: none;
-  border: none;
-  color: #ff6f61;
-  cursor: pointer;
-  margin-left: 10px;
-  font-size: 14px;
-  transition: color 0.3s ease;
-}
-
-.deleteButton:hover {
-  color: #ff3b3f;
+.structure:hover{
+  
+  border: .3vh dashed rgb(120, 175, 194);
+  transform: scale(1.01);
 }

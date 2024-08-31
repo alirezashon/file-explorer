@@ -13,6 +13,13 @@ export const FileExplorerProvider = ({ children }: { children: ReactNode }) => {
     { name: 'Root', type: 'folder', children: [] },
   ])
 
+  const ensureRootFolderExists = (items: FileItem[]): FileItem[] => {
+    if (items.length === 0 || !items.some((item) => item.name === 'Root')) {
+      return [{ name: 'Root', type: 'folder', children: [] }]
+    }
+    return items
+  }
+
   const updateStructure = (
     items: FileItem[],
     name: string,
@@ -41,19 +48,21 @@ export const FileExplorerProvider = ({ children }: { children: ReactNode }) => {
 
   const addItem = (name: string, parent: string, type: 'folder' | 'file') => {
     setStructure((prevStructure) => {
+      const updatedStructure = ensureRootFolderExists(prevStructure)
+
       return parent === 'Root'
         ? [
             {
-              ...prevStructure[0],
+              ...updatedStructure[0],
               children: [
-                ...(prevStructure[0].children || []),
+                ...(updatedStructure[0].children || []),
                 type === 'folder'
                   ? { name, type: 'folder', children: [] }
                   : { name, type: 'file' },
               ],
             },
           ]
-        : updateStructure(prevStructure, name, parent, type)
+        : updateStructure(updatedStructure, name, parent, type)
     })
   }
 
@@ -73,7 +82,10 @@ export const FileExplorerProvider = ({ children }: { children: ReactNode }) => {
             : item
         )
 
-    setStructure((prevStructure) => deleteRecursively(prevStructure))
+    setStructure((prevStructure) => {
+      const updatedStructure = deleteRecursively(prevStructure)
+      return ensureRootFolderExists(updatedStructure)
+    })
   }
 
   return (
