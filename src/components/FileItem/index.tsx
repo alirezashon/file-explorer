@@ -1,4 +1,3 @@
-'use client'
 import { FileItemProps } from '@/interface'
 import styles from './index.module.css'
 import { useContext } from 'react'
