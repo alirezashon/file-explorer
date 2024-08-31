@@ -22,7 +22,7 @@
 
 // pages/index.tsx
 import React from 'react'
-import FileExplorer from '../components/File'
+import FileExplorer from '../components/FileExplorer'
 import { FileExplorerProvider } from '../context/Explorer'
 
 const HomePage: React.FC = () => {

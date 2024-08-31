@@ -1,0 +1,125 @@
+.container {
+  background: linear-gradient(to right, #4f4f4f, #2f2f2f);
+  padding: 4vh 7vw;
+  color: #fff;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.toolbar {
+  display: flex;
+  gap: 2vh;
+}
+
+.toolbar button {
+  background-color: #5e60ce;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-right: 10px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.toolbar button:first-child {
+  background-color: #6a4c93;
+}
+
+.toolbar button:hover {
+  background-color: #5e60ce;
+  transform: scale(1.05);
+}
+
+.list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.listItem {
+  margin-bottom: 12px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.item:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.item span {
+  margin-left: 10px;
+  color: #fff;
+  flex-grow: 1;
+}
+
+.item i {
+  color: #ffd700;
+  font-size: 18px;
+}
+
+.selected {
+  background-color: #6a4c93;
+  box-shadow: 0 0 10px rgba(106, 76, 147, 0.6);
+}
+
+.newItemInput {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.newItemInput input {
+  padding: 8px;
+  border: 1px solid #5e60ce;
+  border-radius: 6px;
+  margin-right: 8px;
+  flex-grow: 1;
+}
+
+.newItemInput button {
+  color: #fff;
+  border: none;
+  margin: 1vh;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.newItemInput button:hover {
+  background-color: #ff3b3f;
+  transform: scale(1.05);
+}
+.save {
+  background-color: #156c9a;
+}
+.cancle {
+  background-color: #ff3b3f;
+}
+.structure {
+  margin-top: 20px;
+}
+
+.deleteButton {
+  background: none;
+  border: none;
+  color: #ff6f61;
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.deleteButton:hover {
+  color: #ff3b3f;
+}

@@ -1,51 +1,45 @@
-import React, { createContext, useState, ReactNode } from 'react';
-
-export interface FileItem {
-  name: string;
-  type: 'file' | 'folder';
-  children?: FileItem[];
-}
-
-interface FileExplorerContextProps {
-  structure: FileItem[];
-  addFolder: (name: string, parent?: string) => void;
-  addFile: (name: string, parent?: string) => void;
-  deleteItem: (name: string) => void;
-}
+import { FileExplorerContextProps, FileItem } from '@/interface'
+import React, { createContext, useState, ReactNode } from 'react'
 
 export const FileExplorerContext = createContext<FileExplorerContextProps>({
   structure: [],
   addFolder: () => {},
   addFile: () => {},
   deleteItem: () => {},
-});
+})
 
-export const FileExplorerProvider = ({
-  children,
-}: {
-  children: ReactNode;
-}) => {
+export const FileExplorerProvider = ({ children }: { children: ReactNode }) => {
   const [structure, setStructure] = useState<FileItem[]>([
     { name: 'Root', type: 'folder', children: [] },
-  ]);
+  ])
 
-  const addFolder = (name: string, parent: string = 'Root') => {
-    const updateStructure = (items: FileItem[]): FileItem[] =>
-      items.map((item) => {
-        if (item.name === parent && item.type === 'folder') {
-          return {
-            ...item,
-            children: [
-              ...(item.children || []),
-              { name, type: 'folder', children: [] },
-            ],
-          };
+  const updateStructure = (
+    items: FileItem[],
+    name: string,
+    parent: string,
+    type: 'folder' | 'file'
+  ): FileItem[] =>
+    items.map((item) => {
+      if (item.name === parent && item.type === 'folder') {
+        return {
+          ...item,
+          children: [
+            ...(item.children || []),
+            type === 'folder'
+              ? { name, type: 'folder', children: [] }
+              : { name, type: 'file' },
+          ],
         }
-        return item.children
-          ? { ...item, children: updateStructure(item.children) }
-          : item;
-      });
+      }
+      return item.children
+        ? {
+            ...item,
+            children: updateStructure(item.children, name, parent, type),
+          }
+        : item
+    })
 
+  const addItem = (name: string, parent: string, type: 'folder' | 'file') => {
     setStructure((prevStructure) => {
       return parent === 'Root'
         ? [
@@ -53,42 +47,21 @@ export const FileExplorerProvider = ({
               ...prevStructure[0],
               children: [
                 ...(prevStructure[0].children || []),
-                { name, type: 'folder', children: [] },
+                type === 'folder'
+                  ? { name, type: 'folder', children: [] }
+                  : { name, type: 'file' },
               ],
             },
           ]
-        : updateStructure(prevStructure);
-    });
-  };
+        : updateStructure(prevStructure, name, parent, type)
+    })
+  }
 
-  const addFile = (name: string, parent: string = 'Root') => {
-    const updateStructure = (items: FileItem[]): FileItem[] =>
-      items.map((item) => {
-        if (item.name === parent && item.type === 'folder') {
-          return {
-            ...item,
-            children: [...(item.children || []), { name, type: 'file' }],
-          };
-        }
-        return item.children
-          ? { ...item, children: updateStructure(item.children) }
-          : item;
-      });
+  const addFolder = (name: string, parent: string) =>
+    addItem(name, parent, 'folder')
 
-    setStructure((prevStructure) => {
-      return parent === 'Root'
-        ? [
-            {
-              ...prevStructure[0],
-              children: [
-                ...(prevStructure[0].children || []),
-                { name, type: 'file' },
-              ],
-            },
-          ]
-        : updateStructure(prevStructure);
-    });
-  };
+  const addFile = (name: string, parent: string) =>
+    addItem(name, parent, 'file')
 
   const deleteItem = (name: string) => {
     const deleteRecursively = (items: FileItem[]): FileItem[] =>
@@ -98,10 +71,10 @@ export const FileExplorerProvider = ({
           item.children
             ? { ...item, children: deleteRecursively(item.children) }
             : item
-        );
+        )
 
-    setStructure((prevStructure) => deleteRecursively(prevStructure));
-  };
+    setStructure((prevStructure) => deleteRecursively(prevStructure))
+  }
 
   return (
     <FileExplorerContext.Provider
@@ -109,5 +82,5 @@ export const FileExplorerProvider = ({
     >
       {children}
     </FileExplorerContext.Provider>
-  );
-};
+  )
+}
