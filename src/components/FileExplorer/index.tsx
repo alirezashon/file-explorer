@@ -1,4 +1,3 @@
-'use client'
 import styles from './index.module.css'
 import { FileExplorerContext } from '../../context/Explorer'
 import { useContext, useState, useRef, useEffect } from 'react'
