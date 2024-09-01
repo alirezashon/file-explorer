@@ -1,0 +1,29 @@
+.listItem {
+    list-style: none;
+    margin: 1vh 0;
+  }
+  
+  .item {
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .item:hover {
+    background-color: #cc7e7e;
+  }
+  
+  .selected {
+    background-color: #4e6769;
+  }
+  
+  .item i {
+    margin-right: 10px;
+    font-size: 1em;
+  }
+  .trash {
+    margin: .3vh 2vh;
+    color: #ff4444;
+  }

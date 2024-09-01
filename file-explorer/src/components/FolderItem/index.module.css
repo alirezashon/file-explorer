@@ -1,0 +1,64 @@
+.listItem {
+  list-style: none;
+  margin: 0;
+  padding: 5px 0;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.item:hover {
+  padding: 1vh;
+  background-color: #44494a;
+}
+.selected {
+  padding: 1vh;
+  background-color: #333;
+  border-radius: 4px;
+}
+
+.caretIcon {
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.folderName {
+  margin-left: 5px;
+  color: white;
+}
+
+.deleteButton {
+  margin-left: auto;
+  background-color: transparent;
+  border: none;
+  color: #ff6666;
+  cursor: pointer;
+}
+
+.deleteButton:hover {
+  color: #ff4444;
+}
+
+.list {
+  padding-left: 10px;
+  transition: max-height 0.3s ease-in-out;
+}
+.iconContainer {
+  display: flex;
+  justify-content: space-around;
+  width: 15%;
+}
+
+.icon {
+  color: #ffffff;
+}
+.trash {
+  color: #ff4444;
+}
+@media (max-width: 787px) {
+  .iconContainer {
+    width: 27%;
+  }
+}
