@@ -1,5 +1,5 @@
 import { FileExplorerContextProps, FileItem } from '@/interface'
-import React, { createContext, useState, ReactNode } from 'react'
+import { createContext, useState, ReactNode } from 'react'
 
 export const FileExplorerContext = createContext<FileExplorerContextProps>({
   structure: [],
